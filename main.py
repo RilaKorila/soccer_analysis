@@ -1,8 +1,4 @@
-import streamlit as  st
-import numpy as  np
-import pandas as pd
-from PIL import Image
-import time
+import streamlit as st
 import data
 import plotly.express as px
 import plotly.figure_factory as ff
@@ -13,10 +9,10 @@ teams = ['イタリア', 'フランス', 'ドイツ', 'ポルトガル', 'アル
     'サウジアラビア', 'ポーランド', 'イラン', '日本', 'セルビア モンテネグロ', 'クロアチア', 'アンゴラ',
     'パラグアイ', 'トーゴ', 'アメリカ', 'トリニダードトバコ']
 
-st.title("サッカー可視化 入門")
+st.title("サッカーデータ　可視化 入門")
 
 
-st.markdown('# 使用したデータ')
+# st.markdown('# 使用したデータ')
 st.sidebar.markdown('### 使用データの選択')
 st.sidebar.markdown('**生データ**と、**1試合あたりに換算したデータ**の2種類あります↓')
 
@@ -41,6 +37,8 @@ else:
 # dataframe: 動的な表
 st.dataframe(df.style.highlight_max(axis=0))
 
+st.markdown('最大値を黄色くハイライトしています')
+
 
 # セレクトボックス:  軸の選択
 st.sidebar.markdown('### 何をしますか？？')
@@ -62,6 +60,8 @@ if menu == '散布図を表示':
     """
     # 散布図で確認
     確認したい変数を選び、「散布図を表示」にチェック！
+
+    上で選択したチームのデータのみ散布図に表示されます
     """
 
     # 選択した軸に合わせて散布図を表示
@@ -78,40 +78,5 @@ if menu == '散布図を表示':
 
         
 
-st.markdown('→　全部出しといて、消したいものを選択する形式の方がいいかもしれない')
 
-# table: 静的な表
-# st.table(df.style.highlight_max(axis=0))
-# 参照：API reference -> Display data
-
-
-
-
-# # slider bar
-# condition = st.sidebar.slider('How is your condition?', 0, 100)
-# 'condition: ', condition
-# # 参照：API reference -> Display interactive widgets
-
-# 2カラムにする
-# left_column, right_column = st.beta_columns(2)
-# button = left_column.button('右カラムに文字を表示')
-# if button:
-#     right_column.write('ここは右カラム')
-
-# expander: toggle機能の追加
-# expander = st.beta_expander('問い合わせ')
-# expander.write('問い合わせ内容をかく')
-# markdown記法が使える
-# """
-# # 章
-# ## 節
-# ### 項
-
-# ``` python
-# import streamlit as  st
-# import numpy as  np
-# import pandas as pd
-# ```
-# """
-# 参照：API reference -> Display text
-
+# →　全部出しといて、消したいものを選択する形式の方がいいかもしれない

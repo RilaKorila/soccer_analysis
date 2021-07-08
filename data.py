@@ -39,8 +39,7 @@ def get_data_per_game(rows):
     df_per_game.insert(0, 'チーム', soccer['チーム'])
 
     # 任意の行をとる
-    # delete = teams - rows
-    tmp = tmp[tmp['チーム'].isin(rows)]
+    df_per_game = df_per_game[df_per_game['チーム'].isin(rows)]
 
     return df_per_game
 
@@ -109,13 +108,5 @@ def get_label_list():
         'イエロー数',
         'レッド数']]
 
-    # '失点','PKゴール数','アシスト数', '枠内シュート数', 'シュート', 'CK数', 'FK数','オフサイド数','ショートパス数','ロングパス数']]
-        # 'クロス数',
-        # 'タックル数',
-        # '被タックル数',
-        # 'ファウル数',
-        # '被ファウル数',
-        # 'イエロー数',
-        # 'レッド数']]
     # dataのcolumn名を取得
     return list(df.columns)

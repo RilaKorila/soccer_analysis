@@ -24,7 +24,7 @@ def run_query(query):
 
 sheet_url = st.secrets["public_gsheets_url"]
 rows = run_query(f'SELECT * FROM "{sheet_url}"')
-run_query(f'INSERT INTO "{sheet_url}" (name, pet) VALUES ("Tom", "dog")')
+run_query(f'INSERT INTO "{sheet_url}" VALUES ("Tom", "dog")')
 
 # Print results.
 for row in rows:

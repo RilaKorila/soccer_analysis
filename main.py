@@ -8,7 +8,8 @@ import datetime
 import logging
 
 
-logging.basicConfig(level=logging.INFO)
+# logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s : %(message)s")
 logging.info('This message should go to the log file')
 
 
@@ -18,6 +19,9 @@ teams = ['イタリア', 'フランス', 'ドイツ', 'ポルトガル', 'アル
     'サウジアラビア', 'ポーランド', 'イラン', '日本', 'セルビア モンテネグロ', 'クロアチア', 'アンゴラ',
     'パラグアイ', 'トーゴ', 'アメリカ', 'トリニダードトバコ']
 
+username = st.sidebar.text_input('username', 'default')
+if username != 'default':
+    st.sidebar.success("Let's Start!")
 st.title("サッカーデータ　可視化 入門")
 
 # st.markdown('# 使用したデータ')
@@ -74,6 +78,7 @@ if menu == '散布図を表示':
     label = data.get_label_list()
     x_label = st.sidebar.selectbox('横軸を選択',label)
     y_label = st.sidebar.selectbox('縦軸を選択',label)
+    logging.info('%s: x軸に%s, y軸に%sを指定', username, x_label, y_label)
 
     """
     # 散布図で確認

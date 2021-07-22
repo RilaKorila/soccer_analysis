@@ -1,7 +1,35 @@
+from pandas.core.frame import DataFrame
 import streamlit as st
 import data
 import plotly.express as px
 import plotly.figure_factory as ff
+import pandas as pd
+from gsheetsdb import connect
+
+
+# log_df = pd.DataFrame([datetime.datetime.now(), 'Start Analysis!'], columns = ['Time' , 'Task'])
+# log_df = pd.DataFrame(columns = ['Time' , 'Task'])
+# log_df = log_df.append({'Time' : datetime.datetime.now(), 'Task' : 'Start'} , ignore_index=True)
+
+# -- スプレッドシートの設定 ---
+# Create a connection object.
+conn = connect()
+
+# Perform SQL query on the Google Sheet.
+# Uses st.cache to only rerun when the query changes or after 10 min.
+@st.cache(ttl=600)
+def run_query(query):
+    rows = conn.execute(query, headers=1)
+    return rows
+
+sheet_url = st.secrets["public_gsheets_url"]
+rows = run_query(f'SELECT * FROM "{sheet_url}"')
+
+# Print results.
+for row in rows:
+    st.write(f"{row.name} has a :{row.pet}:")
+
+# ---------------------------
 
 teams = ['イタリア', 'フランス', 'ドイツ', 'ポルトガル', 'アルゼンチン', 'ブラジル', 'イングランド',
     'ウクライナ', 'スペイン', 'エクアドル', 'メキシコ', 'オーストラリア', 'スイス', 'ガーナ',
@@ -10,7 +38,6 @@ teams = ['イタリア', 'フランス', 'ドイツ', 'ポルトガル', 'アル
     'パラグアイ', 'トーゴ', 'アメリカ', 'トリニダードトバコ']
 
 st.title("サッカーデータ　可視化 入門")
-
 
 # st.markdown('# 使用したデータ')
 st.sidebar.markdown('### 使用データの選択')
@@ -30,6 +57,8 @@ which_team = st.multiselect(
     teams
 )
 if which_data ==  '1試合あたりのデータ':
+    log_df = log_df.append({'Time' : datetime.datetime.now(), 'Task' : '1試合あたりのデータ'} , ignore_index=True)
+    # log_df = log_df.append({'Time' : datetime.datetime.now()} , ignore_index=True)
     df = data.get_data_per_game(which_team)
 else:
     df = data.get_data(which_team)
@@ -76,7 +105,12 @@ if menu == '散布図を表示':
         hover_name=df['チーム'].values)
     st.plotly_chart(fig, use_container_width=True)
 
-        
-
 
 # →　全部出しといて、消したいものを選択する形式の方がいいかもしれない
+
+# # saveボタン
+# if st.sidebar.button('Submit'):
+#     # df = data.get_data(which_team)
+#     log_df.to_csv('./save.csv')
+#     st.sidebar.success("Successfully Saved!!")
+

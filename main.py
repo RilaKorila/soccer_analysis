@@ -9,7 +9,7 @@ import logging
 
 
 # logging.basicConfig(level=logging.INFO)
-logging.basicConfig(level=logging.INFO, format="%(asctime)s : %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime)s, %(message)s")
 logging.info('This message should go to the log file')
 
 
@@ -47,13 +47,14 @@ if which_data ==  '1試合あたりのデータ':
         data = [[datetime.datetime.now(), '1試合あたりのデータ']],
         columns = ['Time' , 'Task'] 
     )
+    logging.info('%s, 使用データ: %s', username, '1試合あたりのデータ')
     df = data.get_data_per_game(which_team)
 else:
-    logging.info('raw game')
     tmp_se = pd.DataFrame(
         data = [[datetime.datetime.now(), '生データ']],
         columns = ['Time' , 'Task'] 
     )
+    logging.info('%s, 使用データ: %s', username, '生データ')
     df = data.get_data(which_team)
 
 # dataframe: 動的な表
@@ -78,7 +79,8 @@ if menu == '散布図を表示':
     label = data.get_label_list()
     x_label = st.sidebar.selectbox('横軸を選択',label)
     y_label = st.sidebar.selectbox('縦軸を選択',label)
-    logging.info('%s: x軸に%s, y軸に%sを指定', username, x_label, y_label)
+    logging.info('%s, x軸: %s', username, x_label)
+    logging.info('%s, y軸: %s', username, y_label)
 
     """
     # 散布図で確認

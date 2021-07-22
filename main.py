@@ -8,47 +8,8 @@ import datetime
 import logging
 
 
-logging.basicConfig(filename='example.log',  level=logging.INFO)
-logging.debug('This message should go to the log file')
-# from gsheetsdb import connect
-
-# config.dictConfig('./log_config.json')
-
-# logger = getLogger(__name__)
-# logger.info('message')
-
-# log_df = pd.DataFrame([datetime.datetime.now(), 'Start Analysis!'], columns = ['Time' , 'Task'])
-# log_df = pd.DataFrame(columns = ['Time' , 'Task'])
-# log_df = log_df.append({'Time' : datetime.datetime.now(), 'Task' : 'Start'} , ignore_index=True)
-
-# -- スプレッドシートの設定 ---
-# Create a connection object.
-# conn = connect()
-
-# # Perform SQL query on the Google Sheet.
-# # Uses st.cache to only rerun when the query changes or after 10 min.
-# @st.cache(ttl=600)
-# def run_query(query):
-#     rows = conn.execute(query, headers=1)
-#     return rows
-
-# sheet_url = st.secrets["public_gsheets_url"]
-# rows = run_query(f'SELECT * FROM "{sheet_url}"')
-# run_query(f'INSERT INTO "{sheet_url}" VALUES ("Tom", "dog")')
-
-# # Print results.
-# for row in rows:
-#     st.write(f"{row.name} has a :{row.pet}:")
-
-# ---------------------------
-
-try:
-  log_df
-except NameError:
-  log_df = DataFrame(columns=['Time', 'Task'])
-  print("created!!")
-  st.sidebar.success('Sucessfully Started!!')
-
+logging.basicConfig(level=logging.INFO)
+logging.info('This message should go to the log file')
 
 
 teams = ['イタリア', 'フランス', 'ドイツ', 'ポルトガル', 'アルゼンチン', 'ブラジル', 'イングランド',
@@ -82,11 +43,6 @@ if which_data ==  '1試合あたりのデータ':
         data = [[datetime.datetime.now(), '1試合あたりのデータ']],
         columns = ['Time' , 'Task'] 
     )
-    # pd.Series([datetime.datetime.now(), '生データ'], ['Time' , 'Task'] )
-    log_df = log_df.append(tmp_se, ignore_index=True )
-    # log_df = log_df.append({'Time' : datetime.datetime.now(), 'Task' : '1試合あたりのデータ'} , ignore_index=True)
-    print("append")
-    # log_df = log_df.append({'Time' : datetime.datetime.now()} , ignore_index=True)
     df = data.get_data_per_game(which_team)
 else:
     logging.info('raw game')
@@ -94,11 +50,6 @@ else:
         data = [[datetime.datetime.now(), '生データ']],
         columns = ['Time' , 'Task'] 
     )
-    # pd.Series([datetime.datetime.now(), '生データ'], ['Time' , 'Task'] )
-    log_df = log_df.append(tmp_se, ignore_index=True )
-    # log_df = log_df.append([datetime.datetime.now(), '生データ'], ignore_index=True )
-    # log_df = log_df.append({'Time' : datetime.datetime.now(), 'Task' : '生データ'} , ignore_index=True)
-    print("append")
     df = data.get_data(which_team)
 
 # dataframe: 動的な表
@@ -145,9 +96,3 @@ if menu == '散布図を表示':
 
 
 # →　全部出しといて、消したいものを選択する形式の方がいいかもしれない
-
-# saveボタン
-if st.sidebar.button('Submit'):
-    log_df.to_csv('./save.csv')
-    st.sidebar.success("Successfully Saved!!")
-

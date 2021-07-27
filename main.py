@@ -49,9 +49,9 @@ def deal_data():
     #     vis()
     page = st.sidebar.radio('ページ選択', ('データ加工', 'データ可視化'))
     if page == 'データ加工':
-        print("data_page")
+        logging.info('%s,ページ選択,%s', st.session_state.username, page)
     elif page == 'データ可視化':
-        print("vis_page")
+        logging.info('%s,ページ選択,%s', st.session_state.username, page)
         vis()
 
     
